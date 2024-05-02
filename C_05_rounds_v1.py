@@ -31,6 +31,12 @@ def two_rolls(who):
 
 
 # Main Routine starts here
+
+# initialise 'pass' variables
+user_pass = "no"
+computer_pass = "no"
+
+# Main Routine starts here
 print("Press <enter> to begin this round: ")
 input()
 
@@ -55,7 +61,12 @@ while computer_points < 13 and user_points < 13:
     # ask user if they want to roll again, update
     # points / status
     print()
-    roll_again = input("Do you want to roll the dice (type 'no' to pass): ")
+    if user_pass == "no":
+        roll_again = input("Do you want to roll the dice (type 'no' to pass): ")
+
+    else:
+        roll_again = "no"
+
     if roll_again == "yes":
         user_move = roll_die()
         user_points += user_move
@@ -73,9 +84,24 @@ while computer_points < 13 and user_points < 13:
         else:
             print(f"You rolled a {user_move} and have a total score of {user_points}.")
 
-    # Roll die for computer and update computer points
-    computer_move = roll_die()
-    computer_points += computer_move
+    else:
+        # if user passes, we don't want to let them roll again!
+        user_pass = "yes"
+
+    # if computer has 10 points or more (and is winning), it should pass!
+    if computer_points >= 10 and computer_points >= user_points:
+        computer_pass = "yes"
+
+        # Don't let the computer roll again if the pass condition
+        # had been met in a previous iteration through the loop.
+    elif computer_pass == "yes":
+        pass
+
+    else:
+
+        # Roll die for computer and update computer points
+        computer_move = roll_die()
+        computer_points += computer_move
 
     # check computer has not gone over...
     if computer_points > 13:
@@ -98,6 +124,8 @@ while computer_points < 13 and user_points < 13:
 
     print(f"{result} \tUser: {user_points} \t | \t Computer: {computer_points}")
 
+    if computer_pass == "yes" and user_pass == "yes":
+        break
 # Outside loop - double user points if they won and are eligible
 
 # show rounds result
@@ -107,10 +135,17 @@ if user_points < computer_points:
           f"increased by {computer_points} points.")
 
 # currently does not include double points
-else:
+elif user_points > computer_points:
     # Double user points if they are eligible
     if double_points == "yes":
         user_points *= 2
 
     print(f"😎 Yay! You won the round and {user_points} points have "
           f"been added to your score 😎")
+
+else:
+    print(f"😐😐 The result for this round is a tie. You and the computer "
+          f"both have {user_points} 😐😐.")
+
+
+
