@@ -12,7 +12,7 @@ def yes_no(question):
         else:
             print("Please enter yes / no")
 
-
+# Displays instructions to user
 def instruction():
     print('''
     
@@ -61,6 +61,7 @@ def int_check():
 print()
 print("🎲 Roll it 13 🎲")
 print()
+
 # loop for testing purpose
 
 
